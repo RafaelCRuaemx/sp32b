@@ -35,6 +35,9 @@ class UsuarioRfid(models.Model):
     semestre = models.ForeignKey(Semestre, on_delete=models.SET_NULL, null=True, blank=True)
     turno = models.ForeignKey(Turno, on_delete=models.SET_NULL, null=True, blank=True)
     
+    correo = models.EmailField(null=True, blank=True)
+    telefono = models.CharField(max_length=20, null=True, blank=True)
+    
     uidRfid = models.CharField(max_length=50, unique=True)
     activo = models.BooleanField(default=True)
     fechaAlta = models.DateField(auto_now_add=True)
