@@ -160,3 +160,11 @@ def crear_justificante(request):
         return Response(JustificanteSerializer(j).data, status=status.HTTP_201_CREATED)
     except UsuarioRfid.DoesNotExist:
         return Response({'detail': 'Usuario no existe'}, status=status.HTTP_404_NOT_FOUND)
+
+@api_view(['GET'])
+def catalogos(request):
+    roles = [{'id': r.id, 'nombre': r.nombre} for r in Rol.objects.all()]
+    carreras = [{'id': c.id, 'nombre': c.nombre} for c in Carrera.objects.all()]
+    semestres = [{'id': s.id, 'nombre': s.nombre} for s in Semestre.objects.order_by('numero')]
+    turnos = [{'id': t.id, 'nombre': t.nombre} for t in Turno.objects.all()]
+    return Response({'roles': roles, 'carreras': carreras, 'semestres': semestres, 'turnos': turnos})

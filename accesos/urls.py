@@ -8,6 +8,7 @@ router.register(r'accesos', views.AccesoViewSet)
 router.register(r'usuarios-rfid', views.UsuarioRfidViewSet)
 
 urlpatterns = [
+    path('catalogos/', views.catalogos),
     path('dashboard/resumen/', views.get_dashboard_resumen),
     path('accesos/simular-lectura/', views.simular_lectura),
     path('inasistencias/', views.listar_inasistencias_al_vuelo),
