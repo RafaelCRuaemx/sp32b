@@ -16,11 +16,12 @@ class AccesoSerializer(serializers.ModelSerializer):
     nombre = serializers.SerializerMethodField()
     matricula = serializers.SerializerMethodField()
     uid = serializers.CharField(source='uid_leido')
-    hora_str = serializers.SerializerMethodField(source='hora')
+    # FIX 1: Renombrado de hora_str → hora para coincidir con accessorKey del frontend
+    hora = serializers.SerializerMethodField()
 
     class Meta:
         model = Acceso
-        fields = ['id', 'nombre', 'matricula', 'uid', 'hora_str', 'puerta', 'estado']
+        fields = ['id', 'nombre', 'matricula', 'uid', 'hora', 'puerta', 'estado']
 
     def get_nombre(self, obj):
         return obj.usuario.nombre if obj.usuario else 'Tarjeta No Registrada'
@@ -28,7 +29,7 @@ class AccesoSerializer(serializers.ModelSerializer):
     def get_matricula(self, obj):
         return obj.usuario.matricula if obj.usuario else 'N/A'
 
-    def get_hora_str(self, obj):
+    def get_hora(self, obj):
         # El frontend espera '21/09/2026 07:44:12 AM'
         if obj.hora:
             local_time = localtime(obj.hora)
