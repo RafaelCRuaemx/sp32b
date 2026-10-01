@@ -14,9 +14,10 @@ class JustificanteAdmin(admin.ModelAdmin):
 
 @admin.register(UsuarioRfid)
 class UsuarioRfidAdmin(admin.ModelAdmin):
-    list_display = ('nombre', 'matricula', 'rol', 'carrera', 'semestre', 'turno', 'activo')
-    list_filter = ('rol', 'carrera', 'semestre', 'turno', 'activo')
+    list_display = ('nombre', 'matricula', 'rol', 'carrera', 'semestre', 'turno', 'activo', 'fechaAlta')
+    list_filter = ('rol', 'carrera', 'semestre', 'turno', 'activo', 'fechaAlta')
     search_fields = ('nombre', 'matricula', 'uidRfid')
+    readonly_fields = ('fechaAlta',)
 
 @admin.register(Acceso)
 class AccesoAdmin(admin.ModelAdmin):

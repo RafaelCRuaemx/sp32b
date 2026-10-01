@@ -3,6 +3,11 @@ from .models import UsuarioRfid, Acceso, Justificante, TelemetriaESP32
 from django.utils.timezone import localtime
 
 class UsuarioRfidSerializer(serializers.ModelSerializer):
+    rol_nombre = serializers.CharField(source='rol.nombre', read_only=True)
+    carrera_nombre = serializers.CharField(source='carrera.nombre', read_only=True)
+    semestre_nombre = serializers.CharField(source='semestre.nombre', read_only=True)
+    turno_nombre = serializers.CharField(source='turno.nombre', read_only=True)
+
     class Meta:
         model = UsuarioRfid
         fields = '__all__'

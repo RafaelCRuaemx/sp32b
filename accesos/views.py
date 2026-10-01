@@ -89,7 +89,7 @@ def get_dashboard_resumen(request):
     accesos_hoy = Acceso.objects.filter(hora__date=hoy)
     
     # Inasistencias calculadas al vuelo
-    usuarios_activos = UsuarioRfid.objects.filter(activo=True, fechaAlta__lte=fecha_req)
+    usuarios_activos = UsuarioRfid.objects.filter(activo=True, fechaAlta__lte=hoy)
     justificantes_hoy = Justificante.objects.filter(fecha=hoy).values_list('usuario_id', flat=True)
     accesos_hoy_ids = accesos_hoy.values_list('usuario_id', flat=True)
     inasistencias = usuarios_activos.exclude(id__in=accesos_hoy_ids).exclude(id__in=justificantes_hoy).count()
