@@ -15,5 +15,8 @@ urlpatterns = [
     path('inasistencias/<int:usuario_id>/justificar/', views.justificar_inasistencia),
     path('justificantes/', views.crear_justificante),
     path('esp32/ultimo-uid-leido/', views.get_ultimo_uid_leido),
+    path('auth/setup-2fa/', views.setup_2fa),
+    path('auth/login/', views.login_2fa),
+    path('auth/verify-2fa/', views.verify_2fa),
     path('', include(router.urls)),
 ]

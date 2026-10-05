@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 class Turno(models.Model):
     nombre = models.CharField(max_length=50, unique=True) # Matutino, Vespertino
@@ -80,3 +81,15 @@ class TelemetriaESP32(models.Model):
 
     def __str__(self):
         return f"ESP32 - {'Online' if self.online else 'Offline'}"
+
+class SeguridadAdministrador(models.Model):
+    #relacion uno a uno: cada administrador de Django tiene un perfil de seguridad 
+    admin = models.OneToOneField(User, on_delete=models.CASCADE, related_name='seguridad')
+
+    #secreto de Google Autenticator(base 32)
+    totp_secret = models.CharField(max_length=32,blank=True, null=True)
+    #bandera para saber si ya se completo el proceso de configuracion
+    is_totp_enabled = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f"Seguridad 2FA - {self.admin.username}"
