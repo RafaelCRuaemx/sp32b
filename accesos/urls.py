@@ -18,5 +18,6 @@ urlpatterns = [
     path('auth/setup-2fa/', views.setup_2fa),
     path('auth/login/', views.login_2fa),
     path('auth/verify-2fa/', views.verify_2fa),
+    path('auth/verify-token/', views.verify_token),
     path('', include(router.urls)),
 ]

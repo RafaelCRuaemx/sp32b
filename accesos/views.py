@@ -58,6 +58,7 @@ class AccesoViewSet(viewsets.ModelViewSet):
         return qs
 
 @api_view(['POST'])
+@permission_classes([AllowAny])
 def simular_lectura(request):
     uid = request.data.get('uid', '00:00:00:00')
     puerta = request.data.get('puerta', 'Torniquete 01')
@@ -277,6 +278,7 @@ import pyotp
 import qrcode
 import base64
 from io import BytesIO
+from rest_framework_simplejwt.tokens import RefreshToken
 
 @api_view(['POST'])
 @permission_classes([AllowAny])
@@ -362,11 +364,16 @@ def verify_2fa(request):
                 seguridad.save()
             
             cache.delete(f"2fa_temp_{temp_token}")
+            
+            # Generar JWT real
+            refresh = RefreshToken.for_user(user)
+            access_token = str(refresh.access_token)
+            
             user_data = {"email": user.username, "name": user.get_full_name() or user.username, "role": "Administrador"}
             return Response({
                 "status": "success",
                 "detail": "Verificación 2FA exitosa",
-                "token": "token_jwt_generado_aqui",
+                "token": access_token,
                 "user": user_data
             }, status=status.HTTP_200_OK)
         else:
@@ -374,3 +381,9 @@ def verify_2fa(request):
             
     except (User.DoesNotExist, SeguridadAdministrador.DoesNotExist):
         return Response({"detail": "Error en la validación"}, status=status.HTTP_401_UNAUTHORIZED)
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def verify_token(request):
+    """Verifica si el token JWT enviado en el header es válido."""
+    return Response({"detail": "Token válido"}, status=status.HTTP_200_OK)
