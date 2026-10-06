@@ -57,9 +57,15 @@ class AccesoViewSet(viewsets.ModelViewSet):
             
         return qs
 
+from django.conf import settings
+
 @api_view(['POST'])
 @permission_classes([AllowAny])
 def simular_lectura(request):
+    api_key = request.headers.get('X-Hardware-Key')
+    if settings.ESP32_API_KEY and api_key != settings.ESP32_API_KEY:
+        return Response({'detail': 'Hardware Unauthorized'}, status=status.HTTP_401_UNAUTHORIZED)
+
     uid = request.data.get('uid', '00:00:00:00')
     puerta = request.data.get('puerta', 'Torniquete 01')
     
